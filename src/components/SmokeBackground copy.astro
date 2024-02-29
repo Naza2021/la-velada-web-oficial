@@ -1,0 +1,31 @@
+<div
+	id="smoke-bkg"
+	class="fixed top-0 -z-10 h-full w-full transition-opacity duration-500"
+	aria-hidden="true"
+>
+	<canvas class="z-10"></canvas>
+</div>
+
+<!-- <link type="preload" href="/js/SmokeBackgroundWorker.js" as="script" /> -->
+
+<script >
+	// import createWorker from "offscreen-canvas/create-worker"
+
+	// const workerUrl = document.querySelector("[type=preload]").href
+	const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
+	if (reducedMotion.matches) {
+		throw new Error("Incopatibility")
+	}
+
+	const themePreference = window.getThemePreference()
+	const canvas = document.querySelector("canvas") as HTMLCanvasElement
+	const w = window.innerWidth
+	const h = window.innerHeight + 200
+
+	const offsetScreen = canvas.transferControlToOffscreen()
+
+	const worker = new Worker("./SmokeBackgroundWorker.ts", { type: "module" })
+	worker.postMessage({ canvas: offsetScreen, w, h, themePreference }, [offsetScreen])
+
+	// const $bkg = document.getElementById("smoke-bkg")
+</script>
