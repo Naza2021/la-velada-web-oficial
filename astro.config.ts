@@ -1,14 +1,16 @@
-import tailwind from "@astrojs/tailwind"
-import vercel from "@astrojs/vercel/serverless"
-import worker from "@astropub/worker"
-import { defineConfig } from "astro/config"
+import tailwind from "@astrojs/tailwind";
+import vercel from "@astrojs/vercel/serverless";
+import worker from "@astropub/worker";
+import { defineConfig } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [tailwind(), worker()],
-  adapter: vercel({
-    webAnalytics: { enabled: true },
-  }),
+  adapter:
+    // node({ mode: "standalone" }) ||
+    vercel({
+      webAnalytics: { enabled: true },
+    }),
   output: "hybrid",
   vite: {
     build: {
@@ -18,4 +20,4 @@ export default defineConfig({
       noExternal: ["path-to-regexp"],
     },
   },
-})
+});
