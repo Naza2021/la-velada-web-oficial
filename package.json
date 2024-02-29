@@ -17,7 +17,7 @@
 	"dependencies": {
 		"@astrojs/node": "^8.2.1",
 		"@astrojs/partytown": "2.0.4",
-		"@astropub/worker": "0.1.0",
+		"@nazfy/worker": "0.1.0",
 		"@fontsource-variable/jost": "5.0.17",
 		"@vercel/analytics": "1.2.2",
 		"astro": "4.4.5",
@@ -44,10 +44,5 @@
 		"prettier-plugin-tailwindcss": "0.5.11",
 		"tailwindcss": "3.4.1",
 		"typescript": "5.3.3"
-	},
-	"pnpm": {
-		"patchedDependencies": {
-			"@astropub/worker@0.1.0": "patches/@astropub__worker@0.1.0.patch"
-		}
 	}
 }
