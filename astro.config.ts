@@ -1,11 +1,11 @@
+import partytown from "@astrojs/partytown";
 import tailwind from "@astrojs/tailwind";
 import vercel from "@astrojs/vercel/serverless";
-import worker from "@nazfy/worker";
 import { defineConfig } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), worker()],
+  integrations: [tailwind(), partytown()],
   adapter:
     // node({ mode: "standalone" }) ||
     vercel({
