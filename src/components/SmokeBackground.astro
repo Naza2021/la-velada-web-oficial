@@ -24,7 +24,7 @@
 
 	const offsetScreen = canvas.transferControlToOffscreen()
 
-	const worker = new Worker("./SmokeBackgroundWorker.ts", { type: "module" })
+	const worker = new Worker("/js/SmokeBackgroundWorker.js", { type: "module" })
 	worker.postMessage({ canvas: offsetScreen, w, h, themePreference }, [offsetScreen])
 
 	// const $bkg = document.getElementById("smoke-bkg")
