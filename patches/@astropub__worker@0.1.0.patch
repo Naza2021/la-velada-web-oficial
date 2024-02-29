@@ -1,0 +1,25 @@
+diff --git a/.vscode/settings.json b/.vscode/settings.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..9e26dfeeb6e641a33dae4961196235bdb965b21b
+--- /dev/null
++++ b/.vscode/settings.json
+@@ -0,0 +1 @@
++{}
+\ No newline at end of file
+diff --git a/integration.js b/integration.js
+index 6019fd9f95ba10d473e570a9a9719b5cef2a5d79..f2a0f9477d47952fadc4983e9bdda0a84e072154 100644
+--- a/integration.js
++++ b/integration.js
+@@ -17,9 +17,9 @@ export default function AstroIntegration() {
+ 											const source = new MagicString(code)
+ 
+ 											// patch for globalThis.Worker
+-											if (options.ssr) {
+-												source.appendLeft(0, `import "@astropub/worker/polyfill";`)
+-											}
++											// if (options.ssr) {
++											// 	source.appendLeft(0, `import "@astropub/worker/polyfill";`)
++											// }
+ 
+ 											// patch for new Worker("../path/to/worker.js")
+ 											for (const match of code.matchAll(workerRE)) {
