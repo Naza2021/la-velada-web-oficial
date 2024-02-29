@@ -1,22 +1,22 @@
-import * as THREE from "three"
+import * as THREE from "three";
 
 interface ConfigBackground {
-  canvas: HTMLCanvasElement
-  h: number
-  w: number
-  themePreference: ReturnType<typeof window["getThemePreference"]>
+  canvas: HTMLCanvasElement;
+  h: number;
+  w: number;
+  themePreference: ReturnType<typeof window["getThemePreference"]>;
 }
 
 const init = async (config: ConfigBackground) => {
-  const { canvas, h, themePreference, w } = config
+  const { canvas, h, themePreference, w } = config;
 
-  console.log({ config })
+  console.log({ config }, "hola");
 
-  let delta = 0
-  const clock = new THREE.Clock()
-  const interval = 1 / 30 // fps
+  let delta = 0;
+  const clock = new THREE.Clock();
+  const interval = 1 / 30; // fps
 
-  let animationFrameId: number = 0
+  let animationFrameId: number = 0;
 
   const THEME = {
     dark: {
@@ -27,21 +27,21 @@ const init = async (config: ConfigBackground) => {
       background: 0xeeeeee,
       opacity: 0.1,
     },
-  } as const
+  } as const;
 
-  const currentTheme = THEME[themePreference]
+  const currentTheme = THEME[themePreference];
 
   // inicializar Three.js
   // 3 cosas básicas: escena, cámara, renderizador
 
   // escena 🖼️
-  const scene = new THREE.Scene()
+  const scene = new THREE.Scene();
 
   // camara 📹
   // 75 -> ángulo de visión
-  const camera = new THREE.PerspectiveCamera(75, w / h, 1, 1000)
-  camera.position.z = 500
-  scene.add(camera)
+  const camera = new THREE.PerspectiveCamera(75, w / h, 1, 1000);
+  camera.position.z = 500;
+  scene.add(camera);
 
   // ▶️ renderizador
   const renderer = new THREE.WebGLRenderer({
@@ -50,53 +50,53 @@ const init = async (config: ConfigBackground) => {
     powerPreference: "high-performance",
     precision: "lowp",
     canvas,
-  })
+  });
 
-  if (!canvas.style) canvas.style = { width: w, height: h }
-  renderer.setSize(w, h)
+  if (!canvas.style) canvas.style = { width: w, height: h };
+  renderer.setSize(w, h);
 
   // color de fondo
-  scene.background = new THREE.Color(currentTheme.background)
+  scene.background = new THREE.Color(currentTheme.background);
 
   // $bkg?.appendChild(renderer.domElement)
 
-  const smokeParticles: THREE.Mesh[] = []
+  const smokeParticles: THREE.Mesh[] = [];
 
   const smokeTexture = ((await new Promise((resolve) => {
     new THREE.ImageBitmapLoader().load("/smoke.webp", (img) =>
       resolve(new THREE.CanvasTexture(img))
-    )
-  })) as any) as THREE.Texture
+    );
+  })) as any) as THREE.Texture;
 
   // 1. geometria
   // crear un plano geométrico de 300x300
-  const smokeGeo = new THREE.PlaneGeometry(300, 300)
+  const smokeGeo = new THREE.PlaneGeometry(300, 300);
 
   // 2. material
   const smokeMaterial = new THREE.MeshLambertMaterial({
     map: smokeTexture,
     transparent: true,
     opacity: currentTheme.opacity,
-  })
+  });
 
-  const NUM_OF_PARTICLES = 100
+  const NUM_OF_PARTICLES = 100;
 
   for (let p = 0; p < NUM_OF_PARTICLES; p++) {
     // crear la malla con la geometria y el material
-    const particle = new THREE.Mesh(smokeGeo, smokeMaterial)
+    const particle = new THREE.Mesh(smokeGeo, smokeMaterial);
     // posicionar aleatoriamente
     // en la x, y, z
     particle.position.set(
       Math.random() * 500 - 250, // X (de -250 a 250)
       Math.random() * 500 - 250, // Y (de -250 a 250)
       Math.random() * 1000 - 100 // Z (de -100 a 900)
-    )
+    );
     // aleatoriamente la z
-    particle.rotation.z = Math.random() * 360
+    particle.rotation.z = Math.random() * 360;
     // añadimos la particula en la escena
-    scene.add(particle)
+    scene.add(particle);
     // añadimos la particula al array
-    smokeParticles.push(particle)
+    smokeParticles.push(particle);
   }
 
   // $bkg?.classList.remove("opacity-0");
@@ -110,22 +110,22 @@ const init = async (config: ConfigBackground) => {
   // }
 
   function animate() {
-    animationFrameId = requestAnimationFrame(animate)
-    delta += clock.getDelta()
+    animationFrameId = requestAnimationFrame(animate);
+    delta += clock.getDelta();
 
     if (delta > interval) {
-      let count = smokeParticles.length
+      let count = smokeParticles.length;
       while (count--) {
-        smokeParticles[count].rotation.z += delta * 0.2
+        smokeParticles[count].rotation.z += delta * 0.2;
       }
 
-      renderer.render(scene, camera)
+      renderer.render(scene, camera);
 
-      delta = 0
+      delta = 0;
     }
   }
 
-  animate()
+  animate();
 
   // document.addEventListener("visibilitychange", () => {
   // 	if (document.hidden && animationFrameId !== 0) {
@@ -152,10 +152,10 @@ const init = async (config: ConfigBackground) => {
   // 		smokeMaterial.opacity = currentTheme.opacity
   // 	})
   // })
-}
+};
 
 addEventListener("message", (e: MessageEvent<ConfigBackground>) => {
   if (e.data.canvas) {
-    init(e.data)
+    init(e.data);
   }
-})
+});
